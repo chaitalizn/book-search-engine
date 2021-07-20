@@ -12,7 +12,7 @@ type User {
 }
 
 type Book {
-  bookId(bookId: String): Book
+  bookId: String
   authors: [String]
   description: String
   title: String
@@ -25,10 +25,10 @@ type Auth {
   user: User
 }
 
-type BookInfoInput {
+input BookInfoInput {
   authors: [String]
   description: String
-  title: String
+  title: String!
   bookId: String
   image: String
   link: String
