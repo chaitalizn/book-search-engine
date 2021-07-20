@@ -25,35 +25,29 @@ type Auth {
   user: User
 }
 
+type BookInfoInput {
+  authors: [String]
+  description: String
+  title: String
+  bookId: String
+  image: String
+  link: String
+}
+
 type Query {
-  helloWorld: String
   me: User
 }
 
 type Mutation {
   login(email: String!, password: String!): Auth
   addUser(username: String!, email: String!, password: String!): Auth
+  saveBook(info: BookInfoInput!): User
+
 }
 
 `;
 // export the typeDefs
 module.exports = typeDefs;
 
-// type Mutation: {
-//   login(email: String!, password: String!): Auth
-//   addUser(username: String!, email: Sting!, password: String!): Auth
-// }
 
 
-// type Auth {
-//   token: String
-//   user: User
-// }
-
-
-
-// type Query {
-//     me: User
-//   }
-
-//   `;

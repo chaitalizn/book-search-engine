@@ -4,9 +4,6 @@ const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
   Query: {
-    helloWorld: () => {
-      return 'Hello world!';
-    },
     me: async (_, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
@@ -28,6 +25,9 @@ const resolvers = {
 
         return { token, user };
       },
+
+      //login a user, sign a token, and send it back (to client/src/components/LoginForm.js)
+
       login: async (parent, { email, password }) => {
         const user = await User.findOne({ email });
 
@@ -44,17 +44,26 @@ const resolvers = {
         const token = signToken(user);
         return { token, user };
         
+      },
+      //save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
+      saveBook: async (_, {info}, context) => {
+        if(context.user) {
+          const user = await User.findByIdAndUpdate(
+            context.user._id,
+            {$addToSet: { saveBooks: info}},
+            {new: true, runValidators: true}
+          );
+
+          return user;
+        }
+        throw new AuthenticationError('You need to be logged in!')
       }
+    
       }
-    //     //login a user, sign a token, and send it back (to client/src/components/LoginForm.js)
-    //      // {body} is destructured req.body
+  
+    
+         //remove a book from `savedBooks`
 
-    //     //save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
-    //     // user comes from `req.user` created in the auth middleware function
-
-    //      //remove a book from `savedBooks`
-
-    // }
   };
   
   module.exports = resolvers;
@@ -67,3 +76,4 @@ const resolvers = {
 //       .populate('savedBooks');
 //   }
 // }
+
