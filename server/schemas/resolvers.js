@@ -57,23 +57,27 @@ const resolvers = {
           return user;
         }
         throw new AuthenticationError('You need to be logged in!')
+      },
+   
+    //remove a book from `savedBooks`
+    removeBook: async (_, {bookId}, context) => {
+      //if the user is logged in, find the user and remove the given bookId from their saved books
+      if(context.user){
+          const user = await User.findByIdAndUpdate(
+              context.user._id,
+              {$pull: {savedBooks: {bookId}}},
+              {new: true}
+          );
+          return user;
       }
-    
-      }
-  
-    
-         //remove a book from `savedBooks`
+
+      //throw an auth error if the user is not logged in
+      throw new AuthenticationError('You are not logged in.')
+  }
+}
 
   };
   
   module.exports = resolvers;
 
-//   Query: {
-//     //get a single user by either their id or their username
-//   me: async (parent, { username }) => {
-//     return User.findOne({ username })
-//       .select('-__v -password')
-//       .populate('savedBooks');
-//   }
-// }
 
