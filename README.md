@@ -24,7 +24,7 @@ Tha app was build using MERN stack, with React front end, MongoDB database and N
 https://immense-garden-40564.herokuapp.com/
 
 ## App
-![Website Screencapture](src/assets/Capture.PNG)
+![Website Screencapture](client/src/assets/Capture.PNG)
 
 ## By
 Chaitali Patel
